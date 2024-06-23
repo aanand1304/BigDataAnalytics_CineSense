@@ -95,8 +95,11 @@ class CineVideoProcessor(CineVideoDownloader):
             return text
     
     # This method helps in performing sentiment analysis on the text
-    def sentiment_analysis(self,text):
+    def sentiment_analysis(self,text,output_path='Sentiments.txt'):
         blob =TextBlob(text)
+        with open(output_path, 'a') as file:
+            file.write(f"Sentiment: {sentiment}Polarity: {blob.sentiment.polarity} subjectivity: {blob.sentiment.subjectivity}\n")
+
         return blob.sentiment
 
 
@@ -111,12 +114,15 @@ class CineVideoProcessor(CineVideoDownloader):
     
 
     # This method helps in extracting emotions from the text
-    def extract_emotions(self,text): 
+    def extract_emotions(self,text, output_path='Emotions.txt'): 
         doc = self.nlp(text)
         full_text = ' '.join([sent.text for sent in doc.sents])
         emotion = NRCLex(full_text)
         #print("Detected Emotions and Frequencies:")
         #print(emotion.affect_frequencies)
+        with open(output_path, 'a') as file:
+            file.write(f"Detected emotions and frequency: {emotion.affect_frequencies}\n")
+
         return emotion.affect_frequencies  
 
 #this method processes the video by calling other methods (extract, transcribe, sentiment, translate, and extract emotions)
@@ -157,7 +163,7 @@ class CineVideoProcessor(CineVideoDownloader):
     def extract_audioThreads(self):
         start = time.perf_counter()
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            video_files = [os.path.join('Video_output',file)for file in os.listdir('Video_output') if file.endswith('.mp4')] #using comprehension for 'for' loop
+            video_files = [os.path.join('Video_output',file)for file in os.listdir('Video_output') if file.endswith('.mp4')]
             executor.map(self.audio_extract,video_files)
         end =time.perf_counter()
         print(f'Parallel Audio extraction (threads): {end - start} second(s)')
