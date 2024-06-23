@@ -32,7 +32,7 @@ class CineVideoDownloader:
         link =YouTube(urls)
         stream= link.streams.get_highest_resolution()
         print(f"Downloading video: {link.title}")
-        stream.download(output_path="video_output")
+        stream.download(output_path="Videos_output")
         print(f"Download completed: {link.title}")
 
 
@@ -74,7 +74,7 @@ class CineVideoProcessor(CineVideoDownloader):
             self.nlp = spacy.load('en_core_web_sm')
             nltk.download('punkt')
 
-    def audio_extract(self, video_path,output_path='audio'):
+    def audio_extract(self, video_path,output_path='Audio'):
         Path(output_path).mkdir(parents=True, exist_ok=True)
         video =mp.VideoFileClip(video_path)
         audio_path=os.path.join(output_path, os.path.basename(video_path).replace('.mp4', '.wav'))
@@ -111,9 +111,9 @@ class CineVideoProcessor(CineVideoDownloader):
         return emotion.affect_frequencies  
 
     def process_videos(self):
-        for vidoe_url in os.listdir('video_output'):
+        for vidoe_url in os.listdir('Videos_output'):
             if vidoe_url.endswith('.mp4'):
-                videoPath =os.path.join('video_output',vidoe_url)
+                videoPath =os.path.join('Videos_output',vidoe_url)
                 audioPath =self.audio_extract(videoPath)
 
                 text =self.audio_transcribe(audioPath)
@@ -141,6 +141,6 @@ class CineVideoProcessor(CineVideoDownloader):
 
     #download videos
 if __name__ == '__main__':
-    video_processor = CineVideoProcessor('video_urls.txt')
+    video_processor = CineVideoProcessor('Video_urls.txt')
     video_processor.download_videos_serial()
     video_processor.process_videos()
