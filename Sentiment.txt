@@ -11,3 +11,4 @@ sentiment for How to Learn English What are you going to do Using the Spoken Eng
 sentiment for Connect with Nature – TECO and Solar Energy - 30 sec video.mp4: Sentiment(polarity=0.3625, subjectivity=0.475)
 sentiment for Dog (30-Second Ad).mp4: Sentiment(polarity=0.1125, subjectivity=0.25)
 sentiment for Donut (30-Second Ad).mp4: Sentiment(polarity=0.35, subjectivity=0.4)
+sentiment for Donut (30-Second Ad).mp4: Sentiment(polarity=0.35, subjectivity=0.4)
