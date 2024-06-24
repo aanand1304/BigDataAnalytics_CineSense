@@ -101,13 +101,12 @@ class CineVideoProcessor(CineVideoDownloader):
 
 
     # This method helps in translating text to Spanish
-
+    #https://pypi.org/project/translate/  -- uses googletrans , as blob.translate method deprecated.
     def transalte_text(self,text):
         translator = Translator()
         translated = translator.translate(text, src='en', dest='es')
         #print(translated.text)
         return translated.text
-
     
 
     # This method helps in extracting emotions from the text
