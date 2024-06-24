@@ -95,11 +95,8 @@ class CineVideoProcessor(CineVideoDownloader):
             return text
     
     # This method helps in performing sentiment analysis on the text
-    def sentiment_analysis(self,text,output_path='Sentiments.txt'):
+    def sentiment_analysis(self,text):
         blob =TextBlob(text)
-        with open(output_path, 'a') as file:
-            file.write(f"Sentiment: {sentiment}Polarity: {blob.sentiment.polarity} subjectivity: {blob.sentiment.subjectivity}\n")
-
         return blob.sentiment
 
 
@@ -114,14 +111,13 @@ class CineVideoProcessor(CineVideoDownloader):
     
 
     # This method helps in extracting emotions from the text
-    def extract_emotions(self,text, output_path='Emotions.txt'): 
+    def extract_emotions(self,text): 
         doc = self.nlp(text)
         full_text = ' '.join([sent.text for sent in doc.sents])
         emotion = NRCLex(full_text)
         #print("Detected Emotions and Frequencies:")
         #print(emotion.affect_frequencies)
-        with open(output_path, 'a') as file:
-            file.write(f"Detected emotions and frequency: {emotion.affect_frequencies}\n")
+
 
         return emotion.affect_frequencies  
 
@@ -140,6 +136,8 @@ class CineVideoProcessor(CineVideoDownloader):
 
                 sentiment =self.sentiment_analysis(text)
                 print(f'Sentiment for {vidoe_url}: {sentiment}')
+                with open('Sentiment.txt', 'a') as file:
+                    file.write(f'sentiment for {vidoe_url}: {sentiment}\n')
 
                 translated_text = self.transalte_text(text)
                 translation_path=os.path.join('Translations', os.path.basename(audioPath).replace('.wav','.txt'))
@@ -149,6 +147,8 @@ class CineVideoProcessor(CineVideoDownloader):
 
                 emotions =self.extract_emotions(text)
                 print(f'Emotions for {vidoe_url} : \n {emotions}')
+                with open('Emotions.txt', 'a') as file:
+                    file.write(f"Detected emotions and frequencies {vidoe_url}: {emotions}\n")
 
 #Serial Audio extraction
     def extract_audioSerial(self):
