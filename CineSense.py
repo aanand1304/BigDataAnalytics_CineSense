@@ -182,7 +182,7 @@ class CineVideoProcessor(CineVideoDownloader):
 if __name__ == '__main__':
     video_processor = CineVideoProcessor('Video_urls.txt')
 
-    #Step-1 Donload videos
+    #Step-1 Download videos
 
     #Serial
     print("Starting serial download..........")
